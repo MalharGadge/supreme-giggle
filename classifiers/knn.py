@@ -1,14 +1,10 @@
 from sklearn.neighbors import KNeighborsClassifier
 
-#loading the trained KNN classifier
+# Load the trained KNN classifier
 knn_classifier = KNeighborsClassifier()
+kf = KFold(n_splits=num_folds, shuffle=True, random_state=42)
 
-#fitting the KNN classifier to the training data
-# knn_classifier.fit(features_lda, labels)
-knn_classifier.fit(features_pca, labels)
-#making predictions
-predicted_labels = knn_classifier.predict(test_features_pca)
+cv_scores = cross_val_score(knn_classifier, features_pca, labels, cv=kf)
 
-#calculating accuracy
-accuracy = np.mean(predicted_labels == test_labels)
-#print("Accuracy:", accuracy)
+print("Cross-validation scores:", cv_scores)
+print("Mean cross-validation score:", np.mean(cv_scores))
